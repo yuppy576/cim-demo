@@ -1,0 +1,5 @@
+[
+  { "id": "CAM-001", "name": "解放大道航空路口", "lng": 112.19, "lat": 31.05, "streamUrl": "", "status": "online" },
+  { "id": "CAM-002", "name": "中南路商圈",       "lng": 112.21, "lat": 31.04, "streamUrl": "", "status": "online" },
+  { "id": "CAM-003", "name": "象山大道万达广场", "lng": 112.22, "lat": 31.06, "streamUrl": "", "status": "online" }
+]

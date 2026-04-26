@@ -1,0 +1,6 @@
+[
+  { "type": "crowd",   "label": "异常人员聚集" },
+  { "type": "vehicle", "label": "违停车辆检测" },
+  { "type": "fire",    "label": "烟雾火情预警" },
+  { "type": "object",  "label": "遗留物检测" }
+]
