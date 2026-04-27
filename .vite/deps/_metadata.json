@@ -1,8 +1,21 @@
 {
-  "hash": "54d8578d",
-  "configHash": "08d57352",
-  "lockfileHash": "e3b0c442",
-  "browserHash": "0e22a114",
-  "optimized": {},
+  "hash": "8eca13d1",
+  "configHash": "720175dd",
+  "lockfileHash": "b63c7d3a",
+  "browserHash": "f03b096a",
+  "optimized": {
+    "cesium": {
+      "src": "../../node_modules/cesium/Source/Cesium.js",
+      "file": "cesium.js",
+      "fileHash": "50a87020",
+      "needsInterop": false
+    },
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "888e6bc1",
+      "needsInterop": false
+    }
+  },
   "chunks": {}
 }

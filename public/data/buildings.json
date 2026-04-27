@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "东宝大厦", "levels": 18, "height": 54, "lng": 112.201, "lat": 31.041, "structure": "框架-剪力墙", "usage": "商住综合" },
+  { "id": 2, "name": "象山花园", "levels": 12, "height": 36, "lng": 112.198, "lat": 31.039, "structure": "砖混", "usage": "住宅" },
+  { "id": 3, "name": "荆门国际中心", "levels": 25, "height": 75, "lng": 112.203, "lat": 31.042, "structure": "框架-核心筒", "usage": "办公" },
+  { "id": 4, "name": "长宁商务楼", "levels": 28, "height": 84, "lng": 112.205, "lat": 31.040, "structure": "框架-剪力墙", "usage": "商业" },
+  { "id": 5, "name": "泉口社区", "levels": 8, "height": 24, "lng": 112.207, "lat": 31.044, "structure": "砖混", "usage": "住宅" },
+  { "id": 6, "name": "白云公寓", "levels": 22, "height": 66, "lng": 112.195, "lat": 31.037, "structure": "框架-剪力墙", "usage": "住宅" }
+]

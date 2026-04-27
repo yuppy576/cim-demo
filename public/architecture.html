@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>CIM平台架构图</title>
+  <style>
+    body { background: #080e1a; color: #e0f0ff; font-family: 'Microsoft YaHei', sans-serif; padding: 40px; }
+    .title { text-align: center; color: #00e5ff; font-size: 24px; margin-bottom: 30px; }
+    .arch-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .arch-box {
+      background: rgba(8,14,26,0.9); border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 8px; padding: 14px; min-width: 160px; text-align: center;
+    }
+    .arch-box h3 { color: #00e5ff; margin: 0 0 8px; font-size: 14px; }
+    .arch-box p { color: #7fa8cc; font-size: 11px; margin: 2px 0; }
+    .arrow-down { text-align: center; color: #00e5ff; font-size: 20px; }
+    .dataflow { margin-top: 30px; padding: 16px; border: 1px dashed rgba(0,229,255,0.2); border-radius: 8px; }
+    .dataflow h2 { color: #00e5ff; font-size: 16px; text-align: center; }
+    .flow-item { display: inline-block; background: rgba(0,229,255,0.1); padding: 4px 12px; border-radius: 4px; margin: 4px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="title">智慧城市CIM平台 - 核心架构</div>
+  
+  <div class="arch-row">
+    <div class="arch-box"><h3>展示层</h3><p>Vue 3 + Cesium.js</p><p>响应式UI / 3D渲染</p></div>
+  </div>
+  <div class="arrow-down">▼</div>
+  <div class="arch-row">
+    <div class="arch-box"><h3>业务逻辑层 (Composables)</h3>
+      <p>useCesiumViewer</p><p>useBuildingLayer</p><p>useBuildingInteraction</p>
+      <p>usePropertyPanel</p><p>useFloorExpand</p><p>useCameraLayer</p>
+      <p>useAlertSystem</p><p>useWorkOrder</p><p>useWorkOrderLabel</p>
+      <p>useGaussianSplat</p>
+    </div>
+  </div>
+  <div class="arrow-down">▼</div>
+  <div class="arch-row">
+    <div class="arch-box"><h3>数据层</h3><p>GeoJSON / 3DTiles</p><p>JSON Mock API</p><p>glTF 模型</p></div>
+    <div class="arch-box"><h3>事件总线</h3><p>eventBus.js</p><p>跨模块解耦通信</p></div>
+  </div>
+
+  <div class="dataflow">
+    <h2>数据流向</h2>
+    <span class="flow-item">用户点击</span>→<span class="flow-item">ScreenSpaceEventHandler</span>→
+    <span class="flow-item">eventBus.emit</span>→<span class="flow-item">Composable 状态更新</span>→
+    <span class="flow-item">Vue 响应式渲染</span>
+  </div>
+</body>
+</html>

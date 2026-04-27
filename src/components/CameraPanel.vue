@@ -1,53 +1,92 @@
 <template>
-  <div class="camera-panel" v-if="visible">
-    <div class="panel-header">
-      <span>📹 视频监控</span>
+  <div :class="['camera-list-wrapper', { 'inline-mode': inline }]">
+    <div class="panel-header" v-if="showHeader">
+      <span>📹 监控列表</span>
       <button @click="$emit('close')">✕</button>
     </div>
     <div class="panel-body">
-      <div v-for="cam in cameras" :key="cam.id" class="camera-item" @click="$emit('select', cam)">
+      <div
+        v-for="cam in cameras"
+        :key="cam.id"
+        class="camera-item"
+        :class="{ 'camera-item-active': activeCamId === cam.id }"
+        @click="selectCamera(cam)"
+      >
         <span class="cam-status" :class="cam.status"></span>
         <span class="cam-name">{{ cam.name }}</span>
+        <span class="cam-locate" @click.stop="$emit('locate', cam)">📍</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  visible: { type: Boolean, default: false },
-  cameras: { type: Array, default: () => [] }
+import { ref } from 'vue'
+
+const props = defineProps({
+  cameras: { type: Array, default: () => [] },
+  inline: { type: Boolean, default: false },
+  showHeader: { type: Boolean, default: false },
+  activeCamId: { type: String, default: null }   // 同步高亮
 })
-defineEmits(['close', 'select'])
+
+const emit = defineEmits(['close', 'select', 'locate'])
+
+const selectCamera = (cam) => {
+  emit('select', cam)
+}
 </script>
 
 <style scoped>
-.camera-panel {
-  position: fixed; left: 10px; top: 80px;
-  width: 240px; max-height: 60vh; overflow-y: auto;
-  background: rgba(10,20,40,0.92); border: 1px solid rgba(0,150,255,0.3);
-  border-radius: 8px; z-index: 900; color: #e0f0ff;
+.inline-mode {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: 100% !important;
+  max-height: none !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.camera-list-wrapper {
+  padding: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
 }
 .panel-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 12px; border-bottom: 1px solid rgba(0,150,255,0.25);
-  font-size: 14px; font-weight: 600; color: #4db8ff;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,150,255,0.2);
 }
 .panel-header button {
-  background: transparent; border: 1px solid rgba(0,150,255,0.4);
-  color: #7fb8e0; width: 24px; height: 24px; border-radius: 4px; cursor: pointer;
+  background: none;
+  border: 1px solid rgba(0,150,255,0.4);
+  color: #7fb8e0;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.panel-body { padding: 8px; }
+.panel-body { padding: 6px; }
 .camera-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px; border-radius: 6px; cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 8px;
+  cursor: pointer;
+  border-radius: 4px;
   transition: background 0.2s;
 }
-.camera-item:hover { background: rgba(0,120,255,0.2); }
-.cam-status {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #4caf50;
-}
+.camera-item:hover { background: rgba(0,150,255,0.15); }
+.camera-item-active { background: var(--border-active); border-left: 2px solid var(--color-primary); }
+.cam-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cam-status.online { background: #4caf50; }
 .cam-status.offline { background: #f44336; }
-.cam-name { font-size: 12px; }
+.cam-name { flex: 1; font-size: 12px; }
+.cam-locate {
+  font-size: 14px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+.cam-locate:hover { opacity: 1; }
 </style>

@@ -1,13 +1,56 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cim-demo</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>智慧城市CIM平台</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #080e1a;
+    }
+    #app {
+      width: 100%;
+      height: 100%;
+    }
+    #app-loading {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: #00e5ff; font-family: 'Microsoft YaHei', sans-serif;
+      text-align: center; z-index: 9999;
+      transition: opacity 0.3s;
+    }
+    #app-loading .spinner {
+      width: 40px; height: 40px; margin: 0 auto 16px;
+      border: 3px solid rgba(0,229,255,0.2);
+      border-top-color: #00e5ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="app-loading">
+    <div class="spinner"></div>
+    <div>智慧城市CIM平台加载中...</div>
+  </div>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    // 兜底保护：5秒后如果加载动画还在，自动隐藏
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const el = document.getElementById('app-loading')
+        if (el) {
+          el.style.opacity = '0'
+          setTimeout(() => el.remove(), 300)
+        }
+      }, 5000)
+    })
+  </script>
+</body>
 </html>

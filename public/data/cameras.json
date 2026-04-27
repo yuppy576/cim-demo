@@ -1,5 +1,14 @@
 [
-  { "id": "CAM-001", "name": "解放大道航空路口", "lng": 112.19, "lat": 31.05, "streamUrl": "", "status": "online" },
-  { "id": "CAM-002", "name": "中南路商圈",       "lng": 112.21, "lat": 31.04, "streamUrl": "", "status": "online" },
-  { "id": "CAM-003", "name": "象山大道万达广场", "lng": 112.22, "lat": 31.06, "streamUrl": "", "status": "online" }
+  {"id":"cam_01","name":"东宝区主干道A","lng":112.201,"lat":31.041,"status":"online","streamUrl":"","osd":"PTZ-01 | 192.168.1.101 | 北向全景"},
+  {"id":"cam_02","name":"东宝区主干道B","lng":112.203,"lat":31.042,"status":"online","streamUrl":"","osd":"PTZ-02 | 192.168.1.102 | 南向卡口"},
+  {"id":"cam_03","name":"象山大道入口","lng":112.198,"lat":31.039,"status":"offline","streamUrl":"","osd":"FIX-03 | 192.168.1.103 | 入口识别"},
+  {"id":"cam_04","name":"长宁大道中段","lng":112.205,"lat":31.040,"status":"online","streamUrl":"","osd":"PTZ-04 | 192.168.1.104 | 中段巡航"},
+  {"id":"cam_05","name":"泉口路交叉口","lng":112.207,"lat":31.044,"status":"offline","streamUrl":"","osd":"FIX-05 | 192.168.1.105 | 交叉口东向"},
+  {"id":"cam_06","name":"金龙泉大道北","lng":112.210,"lat":31.046,"status":"online","streamUrl":"","osd":"PTZ-06 | 192.168.1.106 | 北向监控"},
+  {"id":"cam_07","name":"白云大道南段","lng":112.195,"lat":31.037,"status":"online","streamUrl":"","osd":"FIX-07 | 192.168.1.107 | 南向卡口"},
+  {"id":"cam_08","name":"海慧路交叉口","lng":112.200,"lat":31.043,"status":"offline","streamUrl":"","osd":"PTZ-08 | 192.168.1.108 | 交叉口全景"},
+  {"id":"cam_09","name":"深圳大道西段","lng":112.192,"lat":31.035,"status":"online","streamUrl":"","osd":"FIX-09 | 192.168.1.109 | 西向识别"},
+  {"id":"cam_10","name":"培公大道东段","lng":112.212,"lat":31.048,"status":"online","streamUrl":"","osd":"PTZ-10 | 192.168.1.110 | 东向巡航"},
+  {"id":"cam_11","name":"关公大道转盘","lng":112.202,"lat":31.033,"status":"offline","streamUrl":"","osd":"FIX-11 | 192.168.1.111 | 转盘全景"},
+  {"id":"cam_12","name":"漳河大道入口","lng":112.188,"lat":31.045,"status":"online","streamUrl":"","osd":"PTZ-12 | 192.168.1.112 | 入口监控"}
 ]

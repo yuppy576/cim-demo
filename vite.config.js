@@ -4,10 +4,11 @@ import cesium from 'vite-plugin-cesium'
 
 export default defineConfig({
   plugins: [vue(), cesium()],
-  server: {
-    hmr: {
-      host: '192.168.204.132',
-      port: 5173
-    }
+  publicDir: 'public',
+  build: {
+    rollupOptions: { input: 'index.html' }
+  },
+  optimizeDeps: {
+    entries: ['index.html']
   }
 })

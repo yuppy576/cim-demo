@@ -1,0 +1,41 @@
+:root {
+  --bg-deep: #080e1a;
+  --bg-panel: rgba(8, 14, 26, 0.88);
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-hover: rgba(0, 229, 255, 0.08);
+
+  --color-primary: #00e5ff;
+  --color-primary-dim: rgba(0, 229, 255, 0.3);
+  --color-secondary: #0077ff;
+  --color-accent: #ff6b6b;
+
+  --text-primary: #e0f0ff;
+  --text-secondary: #7fa8cc;
+  --text-dim: #5a7d9a;
+
+  --border-subtle: rgba(0, 229, 255, 0.12);
+  --border-active: rgba(0, 229, 255, 0.3);
+
+  --glow-primary: 0 0 8px rgba(0, 229, 255, 0.3);
+  --glow-strong: 0 0 16px rgba(0, 229, 255, 0.5);
+
+  --status-online: #4caf50;
+  --status-offline: #f44336;
+  --status-processing: #ff8800;
+  --status-closed: #4caf50;
+
+  --font-family: 'Inter', 'Microsoft YaHei', sans-serif;
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 0.85rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.1rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* 响应式尺寸 */
+  --panel-width: 340px;
+  --topbar-height: 42px;
+}
