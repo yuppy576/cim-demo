@@ -8,7 +8,7 @@
       <WorkOrderPanel v-if="currentModule === 'workorder'" :orders="workOrders" />
       <GaussianSplatContent v-if="currentModule === 'gaussian'" :model-value="gaussianLayer" @update:model-value="$emit('update:gaussianLayer', $event)" />
       <UserCenter v-if="currentModule === 'usercenter'" />
-      <DataCenterView v-if="currentModule === 'datacenter'" :buildings="buildings" :cameras="cameras" :work-orders="workOrders" />
+      <DataCenterView v-if="currentModule === 'datacenter'" :buildings="buildings" :cameras="cameras" :work-orders="workOrders" :alerts="alerts" />
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ import GaussianSplatContent from './GaussianSplatContent.vue'
 import WorkOrderPanel from './WorkOrderPanel.vue'
 import UserCenter from './UserCenter.vue'
 import DataCenterView from '../views/DataCenterView.vue'
-defineProps({ currentModule:String, title:String, cameras:{type:Array,default:()=>[]}, gaussianLayer:Boolean, workOrders:{type:Array,default:()=>[]}, activeCameraId:{type:String,default:null}, buildings:{type:Array,default:()=>[]} })
+defineProps({ currentModule:String, title:String, cameras:{type:Array,default:()=>[]}, gaussianLayer:Boolean, workOrders:{type:Array,default:()=>[]}, activeCameraId:{type:String,default:null}, buildings:{type:Array,default:()=>[]}, alerts:{type:Array,default:()=>[]} })
 defineEmits(['close','camera-select','camera-locate','select-building','alert-locate-camera','update:gaussianLayer'])
 </script>
 

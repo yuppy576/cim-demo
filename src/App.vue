@@ -12,7 +12,7 @@
       <PropertyPanel v-if="currentModule === 'overview'" :building="selectedBuilding" @close="handleClosePanel" @selectFloor="handleSelectFloor" @selectUnit="handleSelectUnit" />
     </main>
     <header class="top-nav"><TopNavbar :menu-items="allowedMenuItems" :current-module="currentModule" @switch="switchModule" /></header>
-    <FloatingPanel v-if="currentModule !== 'overview'" :current-module="currentModule" :title="currentModuleLabel" :cameras="cameraList" :gaussian-layer="gaussianLayer" :work-orders="workOrders" :buildings="buildingList" :active-camera-id="activePopupCamera?.id" @close="closeFloatingPanel" @camera-select="handleCameraSelect" @camera-locate="handleCameraLocate" @select-building="handleBuildingSelect" @alert-locate-camera="handleAlertLocateCamera" @update:gaussian-layer="gaussianLayer = $event" />
+    <FloatingPanel v-if="currentModule !== 'overview'" :current-module="currentModule" :title="currentModuleLabel" :cameras="cameraList" :gaussian-layer="gaussianLayer" :work-orders="workOrders" :buildings="buildingList" :alerts="alerts" :active-camera-id="activePopupCamera?.id" @close="closeFloatingPanel" @camera-select="handleCameraSelect" @camera-locate="handleCameraLocate" @select-building="handleBuildingSelect" @alert-locate-camera="handleAlertLocateCamera" @update:gaussian-layer="gaussianLayer = $event" />
     <CameraPopup :camera="activePopupCamera" @close="closeCameraPopup" @locate="handlePopupLocate" />
     <footer class="global-footer">© 2026 OCL | 智慧城市CIM平台核心模块复刻</footer>
   </div>
@@ -46,7 +46,7 @@ console.log('🔍 [App.vue] useAuth 加载:', { isLoggedIn: isLoggedIn.value })
 
 let floorExpand, buildingLayer, interaction, cameraLayer, currentSelectedEntityId, workOrderLabel
 let mockDataMap = {}
-const currentModule = ref('overview'), cameraList = ref([]), gaussianLayer = ref(false), activePopupCamera = ref(null), buildingList = ref([])
+const currentModule = ref('overview'), cameraList = ref([]), gaussianLayer = ref(false), activePopupCamera = ref(null), buildingList = ref([]), alerts = ref([])
 const activeWorkOrderCount = computed(() => workOrders.value.filter(w => w.status === 'processing').length)
 const allMenuItems = [ { id:'overview', label:'城市总览', icon:'🏠' }, { id:'property', label:'不动产查询', icon:'🏢' }, { id:'video', label:'视频监控', icon:'📹' }, { id:'alert', label:'公共安全预警', icon:'🚨' }, { id:'workorder', label:'工单中心', icon:'📋' }, { id:'gaussian', label:'前沿技术', icon:'🧊' }, { id:'datacenter', label:'数据中台', icon:'📊' }, { id:'usercenter', label:'用户中心', icon:'👤' } ]
 const allowedMenuItems = computed(() => allMenuItems.filter(i => getAllowedModules().includes(i.id)))
@@ -75,6 +75,16 @@ const handleBuildingSelect = (building) => {
 
 const onMapCameraClick = (camData) => { showCameraPopup(camData); flyToPosition(camData.lng, camData.lat, 300) }
 const flyToPosition = (lng, lat, height) => { const v = getViewer(); if (v) v.camera.flyTo({ destination: Cesium.Cartesian3.fromDegrees(lng, lat, height), duration: 1.2 }) }
+const flyToBuilding = (building) => {
+  if (!building.lng || !building.lat) return
+  const v = getViewer()
+  if (!v) return
+  v.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(building.lng, building.lat, building.height + 200),
+    duration: 1.2
+  })
+}
+
 
 onMounted(async () => {
   const viewer = initViewer(); if (!viewer) return
@@ -88,7 +98,7 @@ onMounted(async () => {
     return { ...b, lng: lng || 112.20+Math.random()*0.03, lat: lat || 31.04+Math.random()*0.02 }
   })
   floorExpand = useFloorExpand(viewer); interaction = useBuildingInteraction(viewer, mockDataMap); interaction.init()
-  interaction.onSelect((d, e) => { if (currentModule.value !== 'overview') return; if (d) { selectBuilding({ ...d, structure:'框架-剪力墙', usage:Math.random()>0.5?'商住综合':'住宅', year:2015+Math.floor(Math.random()*8), totalUnits:d.levels*4 }); currentSelectedEntityId = e.id; floorExpand.expandFloors(e, d) } else { closePanel(); floorExpand.resetAllHighlights(); currentSelectedEntityId = null } })
+  interaction.onSelect((d, e) => { if (currentModule.value !== 'overview') return; if (d) { flyToBuilding(d); selectBuilding({ ...d, structure:'框架-剪力墙', usage:Math.random()>0.5?'商住综合':'住宅', year:2015+Math.floor(Math.random()*8), totalUnits:d.levels*4 }); currentSelectedEntityId = e.id; floorExpand.expandFloors(e, d) } else { closePanel(); floorExpand.resetAllHighlights(); currentSelectedEntityId = null } })
   cameraLayer = useCameraLayer(viewer); await cameraLayer.load()
   cameraList.value = await (await fetch(import.meta.env.BASE_URL+'data/cameras.json')).json()
   workOrderLabel = useWorkOrderLabel(viewer)

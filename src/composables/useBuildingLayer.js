@@ -5,6 +5,9 @@ export function useBuildingLayer(viewer) {
   let dataSource = null
   let buildingMockDataMap = {}
 
+  const structureTypes = ['框架-剪力墙', '框架结构', '剪力墙', '钢结构', '砖混结构']
+  const usageTypes = ['商住综合', '住宅', '商业', '办公', '混合用途']
+
   const load = async () => {
     let geoJsonData = rawGeoJson
     if (geoJsonData.type === 'GeometryCollection' && Array.isArray(geoJsonData.geometries)) {
@@ -20,7 +23,7 @@ export function useBuildingLayer(viewer) {
 
     dataSource = await Cesium.GeoJsonDataSource.load(geoJsonData, {
       stroke: Cesium.Color.WHITE,
-      fill: Cesium.Color.fromCssColorString('#4da6ff').withAlpha(0.55),  // 蓝色系
+      fill: Cesium.Color.fromCssColorString('#4da6ff').withAlpha(0.55),
       strokeWidth: 2
     })
     viewer.dataSources.add(dataSource)
@@ -45,11 +48,14 @@ export function useBuildingLayer(viewer) {
         const buildId = i
         buildingMockDataMap[buildId] = {
           id: buildId,
-          name: mockNames[i % mockNames.length] + ` ${String.fromCharCode(65 + (i % 26))}座`,
+          name: mockNames[i % mockNames.length] + ' ' + String.fromCharCode(65 + (i % 26)) + '座',
           levels: levels,
           height: height,
           year: 2000 + Math.floor(Math.random() * 24),
           address: '',
+          structure: structureTypes[Math.floor(Math.random() * structureTypes.length)],
+          usage: usageTypes[Math.floor(Math.random() * usageTypes.length)],
+          totalUnits: levels * 4,
           selectedFloor: null
         }
         entity.buildId = buildId

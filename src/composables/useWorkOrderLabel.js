@@ -1,64 +1,58 @@
 import * as Cesium from 'cesium'
 
+const ALERT_ICONS = {
+  '车辆违停': '🚗',
+  '人群聚集': '👥',
+  '占道经营': '🚧',
+  '烟雾告警': '💨',
+  '抛物检测': '⬇️',
+  '区域入侵': '⚠️',
+  '明火告警': '🔥',
+  '交通拥堵': '🚦',
+  '视频巡查': '📹',
+  '未知': '📋'
+}
+
 export function useWorkOrderLabel(viewer) {
-  const labelMap = new Map() // orderId -> entity
+  let labelEntities = {}
 
-  function addOrUpdateLabel(workOrder) {
-    const position = Cesium.Cartesian3.fromDegrees(
-      workOrder.location.lng,
-      workOrder.location.lat,
-      120 // 悬浮高度
-    )
+  function addOrUpdateLabel(wo) {
+    removeLabel(wo.id)
 
-    // 如果已存在则更新
-    if (labelMap.has(workOrder.id)) {
-      const entity = labelMap.get(workOrder.id)
-      entity.label.text = getLabelText(workOrder)
-      entity.label.fillColor = getLabelColor(workOrder.status)
-      return
-    }
+    const icon = ALERT_ICONS[wo.alertType] || '📋'
+    const color = wo.status === 'processing' ? '#FF8800' : '#4CAF50'
+    const statusText = wo.status === 'hung' ? '⚠️挂起' : wo.status === 'processing' ? '🔧处理中' : '✅已关闭'
 
-    // 新建Label实体
     const entity = viewer.entities.add({
-      position,
+      position: Cesium.Cartesian3.fromDegrees(wo.location.lng, wo.location.lat, 50),
       label: {
-        text: getLabelText(workOrder),
-        font: '14px "Microsoft YaHei", sans-serif',
-        fillColor: getLabelColor(workOrder.status),
+        text: `${icon} ${wo.id} ${statusText}`,
+        font: '12px Microsoft YaHei',
+        fillColor: Cesium.Color.fromCssColorString(color),
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 2,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(0, -10),
-        disableDepthTestDistance: Number.POSITIVE_INFINITY
+        pixelOffset: new Cesium.Cartesian2(0, -20),
+        scaleByDistance: new Cesium.NearFarScalar(500, 1.0, 3000, 0.3)
       }
     })
 
-    labelMap.set(workOrder.id, entity)
+    labelEntities[wo.id] = entity
   }
 
   function removeLabel(orderId) {
-    const entity = labelMap.get(orderId)
-    if (entity) {
-      viewer.entities.remove(entity)
-      labelMap.delete(orderId)
+    if (labelEntities[orderId]) {
+      viewer.entities.remove(labelEntities[orderId])
+      delete labelEntities[orderId]
     }
   }
 
-  function getLabelText(wo) {
-    if (wo.status === 'processing') return `🔧 处理中: ${wo.title.slice(0, 15)}...`
-    return `✅ 已关闭: ${wo.title.slice(0, 15)}...`
-  }
-
-  function getLabelColor(status) {
-    return status === 'processing'
-      ? Cesium.Color.fromCssColorString('#FF8800')  // 橙色
-      : Cesium.Color.fromCssColorString('#4CAF50')  // 绿色
-  }
-
   function destroy() {
-    labelMap.forEach((entity) => viewer.entities.remove(entity))
-    labelMap.clear()
+    Object.keys(labelEntities).forEach(id => {
+      viewer.entities.remove(labelEntities[id])
+    })
+    labelEntities = {}
   }
 
   return { addOrUpdateLabel, removeLabel, destroy }

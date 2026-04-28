@@ -9,7 +9,7 @@ const routes = [
   { path: '/workorder', name: 'workorder', component: () => import('../views/WorkOrderView.vue'), meta: { title: '工单中心' } },
   { path: '/gaussian', name: 'gaussian', component: () => import('../views/GaussianView.vue'), meta: { title: '前沿技术' } },
   { path: '/usercenter', name: 'usercenter', component: () => import('../views/UserCenterView.vue'), meta: { title: '用户中心' } },
-  { path: '/datacenter', name: 'datacenter', component: () => import('../views/DataSourceView.vue'), meta: { title: '数据中心' } }
+  { path: '/datacenter', name: 'datacenter', component: () => import('../views/DataCenterView.vue'), meta: { title: '数据中心' } }
 ]
 
 export default createRouter({ history: createWebHashHistory(), routes })
